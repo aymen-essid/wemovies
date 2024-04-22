@@ -1,0 +1,8 @@
+
+    <ul>
+        {% for film in films %}
+            <li> <a class="list-group-item gender-link" href="#">{{ film.title }}</a> </li>
+        {% else %}
+            <div class="list-group-item">No results found!</div>
+        {% endfor %}
+    </ul>

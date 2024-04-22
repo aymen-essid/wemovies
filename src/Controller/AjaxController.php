@@ -18,14 +18,13 @@ class AjaxController extends AbstractController
     #[Route('/{gender}/films', name: 'films_by_gender', methods: ['GET'])]
     public function getFilmsByGenderAction(Request $request, SerializerInterface $serialzier, FilmManager $filmManager, $gender): Response
     {
-   
+
             $films = $filmManager->getTopRatedFilmsByGender($gender);
             $data = $serialzier->serialize($films, JsonEncoder::FORMAT);
             // return new JsonResponse($data, Response::HTTP_OK, [], true);
 
-            return $this->render('home/pages/blocks/films.html.twig', [
+            return $this->render('home/pages/blocks/film.html.twig', [
                 'films' => $films
-            ]);
-        
+            ]);    
     }
 }
