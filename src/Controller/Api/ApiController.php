@@ -2,68 +2,85 @@
 
 namespace App\Controller\Api;
 
-use ApiTmdbHandler;
-use App\Entity\Film;
+// use App\Entity\Film;
+use App\Entity\Gender;
 use App\Service\ApiTmdbHandler as ServiceApiTmdbHandler;
+use App\Service\Manager\FilmManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectRepository;
 use FOS\RestBundle\View\View;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 
-#[Route('/api', name: 'app_')]
+#[Route('/api', name: 'api_')]
 class ApiController extends AbstractController
 {
-    /** @var EntityManagerInterface */
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    /** @var ObjectRepository */
-    private $objectRepository;
+    private ObjectRepository $objectRepository;
 
-    private $client;
+    private ServiceApiTmdbHandler $apiHandler;
 
-    private $apiHandler;
+    private SerializerInterface $serializer;
 
-    public function __construct(EntityManagerInterface $entityManager, HttpClientInterface $client, ServiceApiTmdbHandler $apiHandler)
+
+    public function __construct(EntityManagerInterface $entityManager, SerializerInterface $serializer ,ServiceApiTmdbHandler $apiHandler)
     {
         $this->apiHandler = $apiHandler;
-        $this->client = $client;
         $this->entityManager = $entityManager;
-        $this->objectRepository = $this->entityManager->getRepository(Film::class);
+        $this->serializer = $serializer;
+        // $this->objectRepository = $this->entityManager->getRepository(Film::class);
     }
 
-    #[Route('/films', name: 'api_films')]
-    public function getFilmsFromTmdb(Request $request)
+    #[Route('/genders', name: 'genders', methods: ['GET'])]
+    public function getAllGendersFromTmdb(Request $request)
     {
-        
-        dd($this->apiHandler->auth());
-        
-        // $path = '/jokes/random/';
-        // $response = $this->client->request('GET', $path, [
-        //     'query' => [
-        //         'limitTo' => '[nerdy]',
-        //         'escape' => 'javascript',
-        //     ],
-        // ]);
+        $response =   $this->apiHandler->execApiQuery('GET', 'genre/movie/list' );
+
+        return new JsonResponse($response->getContent(), $response->getStatusCode(), [], true);
+
     }
 
-    #[Route('/filmsxxx', name: 'api_filmxxx')]
-    public function postFilm(Request $request): View
+    #[Route('/films', name: 'films')]
+    public function getAllFilmsFromTmdb(Request $request)
     {
-        $film = new Film();
-        $film->setName($request->get('name'));
-        $film->setDescription($request->get('description'));
-        $film->setProducer($request->get('producer'));
-        $film->setSource($request->get('source'));
-        $film->setYear($request->get('year'));
-        $film->setGender($request->get('gender'));
+        $response = $this->apiHandler->execApiQuery('GET', 'discover/movie' );
 
-        $this->entityManager->persist($film);
-        $this->entityManager->flush();
+        return new JsonResponse($response->getContent(), $response->getStatusCode(), [], true);
 
-        return View::create($film, Response::HTTP_CREATED);
     }
+
+    #[Route('/films/top-rated', name: 'films_top_rated')]
+    public function getTopRatedFilmsFromTmdb(Request $request)
+    {
+        $response = $this->apiHandler->execApiQuery('GET', 'movie/top_rated?language=en-US&page=1');
+
+        return new JsonResponse($response->getContent(), $response->getStatusCode(), [], true);
+
+    }
+
+    #[Route('/{gender}/films', name: 'films_top_rated_by_gender')]
+    public function getTopRatedFilmsFromTmdbByGender(Request $request, $gender)
+    {
+        $response = $this->apiHandler->execApiQuery('GET', 'movie/top_rated?language=en-US&page=1');
+        return new JsonResponse($response->getContent(), $response->getStatusCode(), [], true);
+
+    }
+
+    public function syncDbFromApi(){
+
+        
+        $gendres = $this->apiHandler->execApiQuery('GET', 'genre/movie/list' );
+        $films = $this->apiHandler->execApiQuery('GET', 'discover/movie' );
+
+        $data = ['gender' => $gendres, 'films' => $films];
+
+        return $data;
+    }
+
 
 }

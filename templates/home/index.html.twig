@@ -8,13 +8,13 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div class="row">
+    <div class="example-wrapper">
+    
+        {% block list %}{% endblock %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>D:/work/cine-test/src/Controller/HomeController.php</code></li>
-        <li>Your template at <code>D:/work/cine-test/templates/home/index.html.twig</code></li>
-    </ul>
+
+        {# {% block syncForm %}{% endblock %} #}
+    </div>
 </div>
 {% endblock %}

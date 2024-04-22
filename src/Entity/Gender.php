@@ -21,7 +21,7 @@ class Gender
     /**
      * @var Collection<int, Film>
      */
-    #[ORM\OneToMany(targetEntity: Film::class, mappedBy: 'gender')]
+    #[ORM\ManyToMany(targetEntity: Film::class, mappedBy: 'genre_ids')]
     private Collection $films;
 
     public function __construct()
@@ -32,6 +32,13 @@ class Gender
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(int $id): static
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getName(): ?string
@@ -58,7 +65,7 @@ class Gender
     {
         if (!$this->films->contains($film)) {
             $this->films->add($film);
-            $film->setGender($this);
+            $film->addGenreId($this);
         }
 
         return $this;
@@ -67,12 +74,10 @@ class Gender
     public function removeFilm(Film $film): static
     {
         if ($this->films->removeElement($film)) {
-            // set the owning side to null (unless already changed)
-            if ($film->getGender() === $this) {
-                $film->setGender(null);
-            }
+            $film->removeGenreId($this);
         }
 
         return $this;
     }
+
 }

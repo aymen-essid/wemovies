@@ -1,0 +1,14 @@
+{# {% extends 'home/pages/home.html.twig' %} #}
+
+
+{% block list %}
+<div id="films-list" class="row">
+    <ul>
+        {% for film in films %}
+            <li> <a class="list-group-item list-group-item-action" href="#">{{ film.title }}</a> </li>
+        {% else %}
+            <div class="list-group-item">No results found!</div>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
