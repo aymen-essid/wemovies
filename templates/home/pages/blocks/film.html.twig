@@ -1,8 +1,43 @@
 
-    <ul>
+{# <div class="card-group">            
+    <div class="card-deck">
+
         {% for film in films %}
-            <li> <a class="list-group-item gender-link" href="#">{{ film.title }}</a> </li>
+        <div class="card col-4">
+            <img src="https://image.tmdb.org/t/p/original/{{ film.posterPath }}" class="card-img-top" alt="{{ film.title }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ film.title }}</h5>
+                <p class="card-text">{{ film.overview }}</p>
+                <p class="card-text"><small class="text-muted">{{ film.releaseDate|date("d/m/Y") }}</small></p>
+            </div>
+        </div>
         {% else %}
+
             <div class="list-group-item">No results found!</div>
+
         {% endfor %}
-    </ul>
+
+    </div>
+</div> #}
+
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+{% for film in films %}
+    <div class="col">
+        <div class="card h-100">
+            <img src="https://image.tmdb.org/t/p/original/{{ film.posterPath }}" class="card-img-top" alt="{{ film.title }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ film.title }}</h5>
+                <p class="card-text">{{ film.overview }}</p>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">{{ film.releaseDate|date("d/m/Y") }}</small>
+            </div>
+        </div>
+    </div>
+    {% else %}
+
+        <div class="list-group-item">No results found!</div>
+
+    {% endfor %}
+</div>

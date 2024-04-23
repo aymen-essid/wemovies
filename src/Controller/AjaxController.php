@@ -19,12 +19,11 @@ class AjaxController extends AbstractController
     public function getFilmsByGenderAction(Request $request, SerializerInterface $serialzier, FilmManager $filmManager, $gender): Response
     {
 
-            $films = $filmManager->getTopRatedFilmsByGender($gender);
-            $data = $serialzier->serialize($films, JsonEncoder::FORMAT);
-            // return new JsonResponse($data, Response::HTTP_OK, [], true);
+        $films = $filmManager->getTopRatedFilmsByGender($gender);
 
-            return $this->render('home/pages/blocks/film.html.twig', [
-                'films' => $films
-            ]);    
+        return $this->render('home/pages/blocks/film.html.twig', [
+            'films' => $films,
+
+        ]);    
     }
 }

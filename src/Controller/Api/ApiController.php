@@ -45,7 +45,7 @@ class ApiController extends AbstractController
 
     }
 
-    #[Route('/films', name: 'films')]
+    #[Route('/films', name: 'films', methods: ['GET'])]
     public function getAllFilmsFromTmdb(Request $request)
     {
         $response = $this->apiHandler->execApiQuery('GET', 'discover/movie' );
@@ -54,7 +54,7 @@ class ApiController extends AbstractController
 
     }
 
-    #[Route('/films/top-rated', name: 'films_top_rated')]
+    #[Route('/films/top-rated', name: 'films_top_rated', methods: ['GET'])]
     public function getTopRatedFilmsFromTmdb(Request $request)
     {
         $response = $this->apiHandler->execApiQuery('GET', 'movie/top_rated?language=en-US&page=1');
@@ -63,17 +63,24 @@ class ApiController extends AbstractController
 
     }
 
-    #[Route('/{gender}/films', name: 'films_top_rated_by_gender')]
+    #[Route('/{gender}/films', name: 'films_top_rated_by_gender', methods: ['GET'])]
     public function getTopRatedFilmsFromTmdbByGender(Request $request, $gender)
     {
         $response = $this->apiHandler->execApiQuery('GET', 'movie/top_rated?language=en-US&page=1');
         return new JsonResponse($response->getContent(), $response->getStatusCode(), [], true);
 
     }
+    
+    #[Route('/{film}/poster', name: 'film_poster', methods: ['GET'])]
+    public function getPosterByFilm(Request $request, $film)
+    {
+        $response = $this->apiHandler->execApiQuery('GET', 'movie/'. $film .'/images');
+        return new JsonResponse($response->getContent(), $response->getStatusCode(), [], true);
+
+    }
 
     public function syncDbFromApi(){
 
-        
         $gendres = $this->apiHandler->execApiQuery('GET', 'genre/movie/list' );
         $films = $this->apiHandler->execApiQuery('GET', 'discover/movie' );
 

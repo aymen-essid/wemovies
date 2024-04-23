@@ -2,23 +2,26 @@
 
 {% block title %}Films By Gender{% endblock %}
 
-{% block listing %}
 
-    <div class="row">
-        <div class="col-4">
-            <h1>Menu Genres</h1>
-            <ul>
+
+{% block vertivalMenu %}
+    <div class="col-4">
+        <div id="menu-block">
+            <div class="d-grid gap-2 col-6 mx-auto">
             {% for gender in genders %}
-                <li><a class="gender-button" href="{{ path('app_ajax_films_by_gender', { 'gender': gender.id })}}">{{ gender.name|e }}<a/></li>
+                <button class="btn btn-primary gender-button" value="{{ path('app_ajax_films_by_gender', { 'gender': gender.id })}}">{{ gender.name }}</button>
             {% endfor %}
-            </ul>
-            <div>
-        </div>
-        <div class="col-8">
-            <div id="films-list" class="row">
-            {% include "home/pages/blocks/film.html.twig" %}
             </div>
         </div>
-  </div>
+    </div>
+{% endblock %}
+
+{% block listing %}
+    
+    <div class="col-8">
+        <div id="films-list">
+            {% include "home/pages/blocks/film.html.twig" %}
+        </div>
+    </div>
 
 {% endblock %}

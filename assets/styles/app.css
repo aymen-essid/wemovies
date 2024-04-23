@@ -1,1 +1,6 @@
 @import '~bootstrap/dist/css/bootstrap'; 
+
+.container-fluid{
+    margin-top: 25px;
+    margin-bottom: 20px;
+}
