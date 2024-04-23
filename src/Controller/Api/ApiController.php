@@ -79,6 +79,14 @@ class ApiController extends AbstractController
 
     }
 
+    #[Route('/{film}/video', name: 'film_video', methods: ['GET'])]
+    public function getVideoByFilmId(Request $request, $film)
+    {
+        $response = $this->apiHandler->execApiQuery('GET', 'movie/'. $film . '/watch/providers');
+        return new JsonResponse($response->getContent(), $response->getStatusCode(), [], true);
+
+    }
+    
     public function syncDbFromApi(){
 
         $gendres = $this->apiHandler->execApiQuery('GET', 'genre/movie/list' );

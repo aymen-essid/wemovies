@@ -9,6 +9,7 @@ import './bootstrap.js';
 import './styles/app.css';   
 
 const $ = require('jquery'); 
+const bootstrap = require('bootstrap'); 
 // this "modifies" the jquery module: adding behavior to it
 // the bootstrap module doesn't export/return anything
 // require('bootstrap');
@@ -40,7 +41,9 @@ genderButton.forEach( (button) => { button.addEventListener('click',
 });
 
 
+var myModal = new bootstrap.Modal(document.getElementById('myModal'));
 
-$(function() {
-$('::marker').remove();
+
+$(function() { 
+
 });

@@ -19,6 +19,25 @@
 {% block listing %}
     
     <div class="col-8">
+
+        <div id="search-bar" class="row">
+            <form>
+                
+                <div class="row">
+                    <div class="mb-3 col-8">
+                        <label for="exampleInputEmail1" class="form-label">Recherche</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                        <div id="emailHelp" class="form-text">Aotocomplete is available</div>
+                    </div>
+                    <div class="col-2 search-btn">
+                        <button type="submit" class="btn btn-primary">Rechercher</button>
+                    </div>
+                </div>
+
+                
+            </form>
+        </div>
+
         <div id="films-list">
             {% include "home/pages/blocks/film.html.twig" %}
         </div>

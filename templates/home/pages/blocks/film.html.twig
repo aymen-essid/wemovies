@@ -29,10 +29,15 @@
             <div class="card-body">
                 <h5 class="card-title">{{ film.title }}</h5>
                 <p class="card-text">{{ film.overview }}</p>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+                Détails du Film
+                </button>
             </div>
             <div class="card-footer">
                 <small class="text-muted">{{ film.releaseDate|date("d/m/Y") }}</small>
             </div>
+            {% include "home/pages/blocks/modal.html.twig" %}
         </div>
     </div>
     {% else %}
