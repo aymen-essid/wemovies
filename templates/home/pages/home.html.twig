@@ -26,20 +26,36 @@
                 <div class="row">
                     <div class="mb-3 col-8">
                         <label for="exampleInputEmail1" class="form-label">Recherche</label>
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                        <div id="emailHelp" class="form-text">Aotocomplete is available</div>
+                        {# <input name="film_autocomplete_field" {{ stimulus_controller('symfony/ux-autocomplete/autocomplete', {
+                                                        url: path('ux_entity_autocomplete', { alias: 'film_autocomplete_field' })
+                                                        }) 
+                                                    }} 
+                                class="form-control basicAutoComplete" type="text"> #}
+                        {{ form_start(searchForm) }}
+                            <div class="my-custom-class-for-errors">
+                                {{ form_errors(searchForm) }}
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    {{ form_row(searchForm.searchField) }}
+                                </div>
+                            </div>
+                        {{ form_end(searchForm) }}
                     </div>
                     <div class="col-2 search-btn">
                         <button type="submit" class="btn btn-primary">Rechercher</button>
                     </div>
                 </div>
 
-                
             </form>
         </div>
 
         <div id="films-list">
             {% include "home/pages/blocks/film.html.twig" %}
+            <div id="spinner-div" class="pt-5">
+                <div class="spinner-border text-primary" role="status"></div>
+            </div>
         </div>
     </div>
 

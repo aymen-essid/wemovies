@@ -27,6 +27,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "bootstrap-autocomplete": "^2.3.7",
         "npm-watch": "^0.11.0"
     }
 }

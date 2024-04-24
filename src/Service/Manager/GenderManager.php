@@ -52,6 +52,20 @@ class GenderManager
 
         return $data;
     }
+
+    public function getGenderNameById(int $genderId):string
+    {
+
+        $genderName = "";
+        $genders = $this->getGenders();
+        foreach($genders as $gender){
+            if($gender->getId() == $genderId){
+                $genderName = $gender->getName();
+                break;
+            }      
+        }
+        return $genderName;
+    }
     
     // public function syncGenders(){
 

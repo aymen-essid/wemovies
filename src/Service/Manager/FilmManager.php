@@ -34,6 +34,20 @@ class FilmManager
         $this->em = $em;
     }
 
+    public function getFilmsForSearch(){
+
+        $data = [];
+        $request = Request::create($this->router->generate('api_films'), 'GET');
+        $response = $this->kernel->handle($request, HttpKernelInterface::SUB_REQUEST);
+
+        $films = json_decode($response->getContent(), true);
+
+        foreach($films['results'] as $film){
+            $data['results'][] = ["value" => $film['id'], "text" => $film['title']];
+        }
+        return json_encode($data);
+    }
+
     public function getFilms(){
 
         $data = [];

@@ -17,16 +17,17 @@ const bootstrap = require('bootstrap');
 
 let genderButton = document.querySelectorAll('#menu-block button');
 let filmHtmlBlock = document.querySelector('#films-list');
+let searchField = document.querySelector('.basicAutoComplete');
+
+bootstrap.autoComplete();
 
 console.log(genderButton.length);
 genderButton.forEach( (button) => { button.addEventListener('click', 
     function(e){
-        e.stopImmediatePropagation(); 
+        e.stopImmediatePropagation();  
         e.preventDefault(); 
-
-        console.log(button);
-        console.log(button.value);
-
+        $("#spinner-div").show(); 
+        console.log($("#spinner-div"));
         fetch(button.value , {
             method: 'GET',
             headers: { "X-Requested-with": "XMLHttpRequest" }
@@ -34,6 +35,7 @@ genderButton.forEach( (button) => { button.addEventListener('click',
         .then(response => response.text())
         .then((text) => {
             filmHtmlBlock.innerHTML = text;
+            $("#spinner-div").hide();
         })
         .catch(e => alert(e));  
 
@@ -41,9 +43,16 @@ genderButton.forEach( (button) => { button.addEventListener('click',
 });
 
 
+
+
+
+
+
 var myModal = new bootstrap.Modal(document.getElementById('myModal'));
 
 
 $(function() { 
 
-});
+    
+ 
+}); 
